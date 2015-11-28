@@ -1,1 +1,175 @@
+import javax.print.attribute.standard.Finishings;
+
+
+public class BinaryTree 
+{
+	Node root;// the constant value that keep the value of the root of the tree 
+	
+	public void addNode(int key,String name)
+	{
+		Node newNode= new Node(key,name);//add a new node that get the parameter key and the name 
+		
+		if (root==null)//the case of the tree is empty and we need to input the first node
+		{
+			root=newNode; // we input the nwe node(first node) to the tree
+		}
+		else
+		{
+			Node focusNode=root;// the node we focus now
+			Node parent;
+			while(true)
+			{
+				parent=focusNode;
+				
+				if(key<focusNode.key)//checking if the key is smaller from the focus
+				{
+					focusNode=focusNode.leftChild;//take the node to the left side because he smaller
+					
+					if(focusNode==null)// if the left child as no children
+					{
+						parent.leftChild=newNode;// enter to left child the new node
+						return;
+					}
+				}
+				else// the case that the new node is bigger we need to put him in the right side
+				{
+					focusNode=focusNode.rightChild;
+					
+					if(focusNode==null)//the case that the he don't have any children
+					{
+						parent.rightChild=newNode;
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	public void inOrderTraverseTree(Node focusNode)//recursive method that sort the tree
+	{
+		if(focusNode!=null)
+		{
+			inOrderTraverseTree(focusNode.leftChild);// do recursive on the left side of tree that sort the tree
+			System.out.println(focusNode.leftChild);
+			inOrderTraverseTree(focusNode.rightChild);// do recursive on the right side of tree that sort the tree
+			System.out.println(focusNode.rightChild);
+		}
+	}
+	
+	public void preOrderTraverseTree(Node focusNode)//recursive method that sort the tree
+	{
+		if(focusNode!=null)
+		{
+			System.out.println(focusNode);
+			preOrderTraverseTree(focusNode.leftChild);// do recursive on the left side of tree that sort the tree
+			
+			preOrderTraverseTree(focusNode.rightChild);// do recursive on the right side of tree that sort the tree
+			
+		}
+	}
+	
+	public Node findNode(int key)// find a specific key that we want to find in our tree
+	{
+		Node focusNode=root;
+		
+		while(focusNode.key!=key)//keep the loop until you find the key you look for in the tree
+		{
+			if(key<focusNode.key)//search on the left side
+			{
+				focusNode=focusNode.leftChild;
+			}
+			else
+			{
+				focusNode=focusNode.rightChild;
+			}
+			
+			if(focusNode==null)// there is no match of what we look for
+			{
+				return null;  
+			}
+			
+			
+		}
+		return focusNode;
+	}
+	
+	public Node FindNodeICreate(int key)
+	{
+		Node focuNode= runInsideTree(key);
+		
+		return focuNode;
+		
+	}
+	
+	public Node runInsideTree(int key)
+	{
+		Node focusNode=root;
+		
+		while(key!=focusNode.key)
+		{
+			if(key<focusNode.key)
+			{
+				focusNode=focusNode.leftChild;
+			}
+			else
+			{
+				focusNode=focusNode.rightChild;
+			}
+			if(focusNode==null)
+			{
+				return null;
+			}
+		}
+		return focusNode; 
+	}
+	
+	public static void main(String[] args)
+	{
+		BinaryTree theTree= new BinaryTree();
+		
+		theTree.addNode(50, "Boss");
+		theTree.addNode(25, "Vice pres");
+		theTree.addNode(15, "office Manger");
+		theTree.addNode(30, "Secretery");
+		theTree.addNode(75, "sales Manger");
+		theTree.addNode(85, "saelsman 1");
+		
+		theTree.preOrderTraverseTree(theTree.root);
+		
+		System.out.println("search for 30");
+		System.out.println(theTree.findNode(30));
+		
+		System.out.println("search for 25 in the methid that i create ");
+		Node focuNode= theTree.FindNodeICreate(25);
+		if(focuNode==null)
+		{
+			System.out.println("there is no key like this in our tree");
+		}
+		else
+		{
+			System.out.println(focuNode);
+		}
+		
+		
+	}
+	
+	class Node// the class that define the Nodes
+	{
+		int key;
+		String name;
+		Node leftChild;//the constant value that keep the value of the left node of the tree 
+		Node rightChild;//the constant value that keep the value of the right node of the tree
+		
+		Node(int key,String name)//constructor
+		{
+			this.key=key;
+			this.name=name;
+		}
+		
+		public String toString()//the print that we see
+		{
+			return name+ "has a key "+ key;
+		}
+	}
+}
 
